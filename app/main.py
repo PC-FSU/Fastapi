@@ -30,26 +30,6 @@ except Exception as e:
     print("Falied to connect to database!")
     print("Error:", e)
     
-    
-    
-    
-my_posts = [
-    {'title': "First post", 'content': "First content", 'published': True, 'rating' : 4, 'id': 1},
-    {'title': "Second post", 'content': "Second content", 'id':2}
-]
-
-
-def find_post(id: int):
-    for post in my_posts:
-        if post["id"] == id:
-            return post
-    return None
-
-def find_index_post(id: int):
-    for idx, val in enumerate(my_posts):
-        if val['id'] == id:
-            return idx
-    return None
 
 
 class Post(BaseModel):
