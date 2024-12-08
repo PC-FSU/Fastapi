@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 fastapi = {extras = ["all"], version = "^0.115.6"}
 unicorn = "^2.1.1"
+psycopg2 = "^2.9.10"
 
 
 [build-system]

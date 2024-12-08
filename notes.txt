@@ -1,0 +1,174 @@
+-- Different HTTP method ; get, post
+
+
+app = FastAPI()
+
+@app.get('/')
+async def root():
+    return {"message": "Wsd elcome to my api"}
+
+-- On this the @ act as decorater, and make the def root a part of function of api() initilization.
+
+
+-- use uvicorn:main:app --reload --> allow to reflect change in code directly in server without restarting it.
+
+-- if use the same root path like (/) for two function and has two get method there, it going to return the
+first operation that it see. So order matters.
+
+
+@app.get('/')
+async def root():
+    return {"message": "Welcome to my api"}
+
+
+
+@app.get('/')
+def get_posts():
+    return {'data' : "This is your post"}
+
+In this you will get the {"message": "Welcome to my api"} as output, not {'data' : "This is your post"}.
+
+
+
+-- def create_post(payload: dict = Body(...)):
+    print(payload)
+    return {"message" : "Yo! here's my post"}
+
+The Body takes the payload and convert it into a dictionary.
+
+
+
+-- Use pydanctic basd model to ensure the data struture remain intact, we want
+    data in a specific format, and pydantic makes sure of that.
+
+
+-- If you want lets say the latest post and you have these two post
+
+@app.get('/posts/{id}')
+async def get_post(id: int):
+    return {"post_details": find_post(id)}
+
+
+@app.get('/posts/latest')
+async def get_post():
+    return {"post_details": my_posts[-1]}
+
+
+Then it will throw an error because at the root path it will send `latest` to {id} and will throw 
+an error since its empty. You move the post up to not get the error. The request type
+and path matter, so pay attention to path. 
+
+
+--- CRUD
+Create: Insert new data into a database
+Read: Retrieve data from a database
+Update: Modify existing data in a database
+Delete: Remove data from a database
+
+
+
+----Here is a step-by-step guide to create a PostgreSQL database called social_media_database on Ubuntu after installing PostgreSQL:
+
+1. Start the PostgreSQL Service
+Ensure that the PostgreSQL service is running:
+
+bash
+Copy code
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+Check the status to verify:
+
+bash
+Copy code
+sudo systemctl status postgresql
+2. Switch to the postgres User
+The PostgreSQL database server uses the postgres user by default. Switch to this user:
+
+bash
+Copy code
+sudo -i -u postgres
+3. Open the PostgreSQL Interactive Terminal (psql)
+Once you're the postgres user, access the PostgreSQL interactive terminal:
+
+bash
+Copy code
+psql
+You should see the prompt change to something like:
+
+makefile
+Copy code
+postgres=#
+4. Create a New Database
+Inside the psql terminal, use the following command to create the database:
+
+sql
+Copy code
+CREATE DATABASE social_media_database;
+You should see a confirmation like:
+
+sql
+Copy code
+CREATE DATABASE
+5. List Existing Databases (Optional)
+To verify the database was created successfully, list all databases:
+
+sql
+Copy code
+\l
+You should see social_media_database in the list.
+
+6. Exit the psql Terminal
+Exit the psql interface by typing:
+
+sql
+Copy code
+\q
+7. (Optional) Connect to the New Database
+If you want to connect to the new database from the psql terminal:
+
+bash
+Copy code
+psql -d social_media_database
+The prompt should change to indicate you're connected to the database:
+
+makefile
+Copy code
+social_media_database=#
+8. Create a User and Assign Permissions (Optional)
+If you want a dedicated user for this database:
+
+Create a new user:
+
+sql
+Copy code
+CREATE USER new_user WITH PASSWOR.D 'your_password';
+Grant privileges to the user:
+
+sql
+Copy code
+GRANT ALL PRIVILEGES ON DATABASE social_media_database TO new_user;
+9. Exit the postgres User
+To return to your normal user account:
+
+bash
+Copy code
+exit
+
+
+You need to grant persission to new user to create/modify table in SQL
+
+created a user:pc19d, and password as : password123
+
+
+
+---- You can't use f-string method. If you use this, you might be prone to sql-injection virus attack.
+
+
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
+async def create_posts(post: Post):
+    cursor.execute(
+        """ INSERT INTO post (title, content, published) VALUES (%s, %s, %s) RETURNING * """, (post.title, post.content, post.published)  -->> use this method to prevent sql injection, this 
+    )                                                                                                                                          check the fastapi that string are valid not weird injection  
+    new_post = cursor.fetchone()
+    conn.commit()  ---> Ecertime you add data, you need to commit those changes, which make sure that it commits them.
+    return {"data" : new_post}
