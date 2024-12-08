@@ -10,6 +10,7 @@ python = "^3.12"
 fastapi = {extras = ["all"], version = "^0.115.6"}
 unicorn = "^2.1.1"
 psycopg2 = "^2.9.10"
+sqlalchemy = "^2.0.36"
 
 
 [build-system]
