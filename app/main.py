@@ -39,8 +39,6 @@ async def create_posts(post: Post, db: Session = Depends(get_db)):
 
 @app.get('/posts/{id}')
 async def get_post(id: int, db: Session = Depends(get_db)):
-    # cursor.execute(""" SELECT * from post where id = %s""", (str(id)))
-    # post = cursor.fetchone()
     post = db.query(ORM_models.Post_ORM).filter(ORM_models.Post_ORM.id == id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} not found.')
@@ -49,12 +47,6 @@ async def get_post(id: int, db: Session = Depends(get_db)):
 
 @app.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_post(id: int, db: Session = Depends(get_db)):
-    # cursor.execute(
-    #     """ DELETE from post where id = %s returning * """, (str(id))
-    # )
-    # deleted_post = cursor.fetchone()
-    # conn.commit()
-    
     post = db.query(ORM_models.Post_ORM).filter(ORM_models.Post_ORM.id == id)
     if post.first() is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} not found.')
@@ -65,12 +57,6 @@ async def delete_post(id: int, db: Session = Depends(get_db)):
 
 @app.put('/posts/{id}')
 async def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
-    # cursor.execute(
-    #     """ UPDATE post SET title = %s, content = %s, published = %s where id = %s  RETURNING * """, (post.title, post.content, post.published, id)
-    # )
-    # updated_post = cursor.fetchone()
-    # conn.commit()
-    
     post_query = db.query(ORM_models.Post_ORM).filter(ORM_models.Post_ORM.id == id)
     post = post_query.first()
     if post is None:
