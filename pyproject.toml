@@ -11,6 +11,7 @@ fastapi = {extras = ["all"], version = "^0.115.6"}
 unicorn = "^2.1.1"
 psycopg2 = "^2.9.10"
 sqlalchemy = "^2.0.36"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 
 
 [build-system]

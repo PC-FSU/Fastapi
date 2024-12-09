@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from .constant import DB_USER, DB_PASSWORD, DB_NAME, DB_HOST
+from .constants import DB_USER, DB_PASSWORD, DB_NAME, DB_HOST
 
 
 
