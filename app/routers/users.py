@@ -6,9 +6,9 @@ from ..database import get_db
 from ..utils import hash
 from ..schemas import UserCreate, UserOut
 
-router = APIRouter()
+router = APIRouter(prefix='/users', tags=['Users'])
 
-@router.post('/users', status_code=status.HTTP_201_CREATED, response_model=UserOut)
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserOut)
 async def create_users(user: UserCreate, db: Session = Depends(get_db)):
     user.password = hash(user.password)
     new_user = ORM_models.User(**user.model_dump())
@@ -18,12 +18,12 @@ async def create_users(user: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.get('/users')
+@router.get('/')
 async def get_users(db: Session = Depends(get_db)):
     return db.query(ORM_models.User).all()
 
 
-@router.get('/users/{id}', response_model=UserOut)
+@router.get('/{id}', response_model=UserOut)
 async def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(ORM_models.User).filter(ORM_models.User.id == id).first()
     if not user:
