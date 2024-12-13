@@ -6,27 +6,22 @@ import datetime
 from .schemas import TokenData
 from .database import get_db
 from . import ORM_models
+from .config import settings
 
 
 oauth_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7" # could be any long random text
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-
 def create_access_token(data: dict):
     to_encode = data.copy()
-    expire = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode['exp'] = expire
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
 def verify_access_token(token: str, credentials_exception):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         id_ = str(payload.get("user_id"))
         if id_ is None:
             raise credentials_exception
@@ -44,6 +39,4 @@ def get_current_user(token: str = Depends(oauth_scheme), db: Session = Depends(g
     
     token = verify_access_token(token, credentials_exception)
     
-    user = db.query(ORM_models.User).filter(ORM_models.User.id == token.id).first()
-    
-    return user
+    return db.query(ORM_models.User).filter(ORM_models.User.id == token.id).first()

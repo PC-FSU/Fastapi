@@ -19,7 +19,6 @@ async def create_posts(post: PostCreate, db: Session = Depends(get_db), current_
     db.refresh(new_post)
     return new_post
 
-
 @router.get('/{id}', response_model=Post)
 async def get_post(id: int, db: Session = Depends(get_db),  current_user: int =  Depends(oauth2.get_current_user)):
     post = db.query(ORM_models.Post_ORM).filter(ORM_models.Post_ORM.id == id).first()
