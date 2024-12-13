@@ -160,6 +160,52 @@ You need to grant persission to new user to create/modify table in SQL
 created a user:pc19d, and password as : password123
 
 
+ist all tables in psql database
+ChatGPT said:
+ChatGPT
+To list all tables in a PostgreSQL database using the psql command-line tool, follow these steps:
+
+Step 1: Log in to the Database
+Connect to your database using psql:
+
+bash
+Copy code
+psql -d database_name -U username
+For example:
+
+bash
+Copy code
+psql -d social_media_database -U pc19d
+Step 2: List All Tables
+Once connected, use the following psql command to list all tables in the current database:
+
+sql
+Copy code
+\dt
+Step 3: List Tables in a Specific Schema (Optional)
+If your database contains multiple schemas, you can list tables in a specific schema:
+
+sql
+Copy code
+\dt schema_name.*
+For example:
+
+sql
+Copy code
+\dt public.*
+Step 4: Exit psql
+After listing the tables, you can exit the psql session:
+
+sql
+Copy code
+\q
+
+
+If you want to drop the table
+DROP TABLE posts;
+
+
+
 
 ---- You can't use f-string method. If you use this, you might be prone to sql-injection virus attack.
 
@@ -172,3 +218,6 @@ async def create_posts(post: Post):
     new_post = cursor.fetchone()
     conn.commit()  ---> Ecertime you add data, you need to commit those changes, which make sure that it commits them.
     return {"data" : new_post}
+
+
+

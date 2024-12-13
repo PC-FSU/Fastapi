@@ -12,9 +12,6 @@ class PostCreate(PostBase):
     pass
 
 
-
-    
-
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -24,6 +21,7 @@ class UserCreate(BaseModel):
 class Post(PostBase):
     id: int
     created_at: datetime
+    owner_id: int
     
     class Config:
         orm_mode = True
@@ -38,3 +36,11 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+    
+    
+class Token(BaseModel):
+    access_token: str
+    token_type: str 
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
