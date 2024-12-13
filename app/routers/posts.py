@@ -28,8 +28,8 @@ async def get_post(id: int, db: Session = Depends(get_db),  current_user: int = 
     return post
 
 @router.get('/', response_model=List[Post])
-async def get_posts(db: Session = Depends(get_db),  current_user: int =  Depends(oauth2.get_current_user)):
-    return db.query(ORM_models.Post_ORM).all()
+async def get_posts(db: Session = Depends(get_db),  current_user: int =  Depends(oauth2.get_current_user), limit: int = 10):
+    return db.query(ORM_models.Post_ORM).limit(limit).all()
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
