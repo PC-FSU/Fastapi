@@ -1,6 +1,6 @@
 
 from fastapi import Response, status, HTTPException, Depends, APIRouter
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
 from .. import ORM_models, oauth2
 from ..database import get_db
@@ -28,8 +28,8 @@ async def get_post(id: int, db: Session = Depends(get_db),  current_user: int = 
     return post
 
 @router.get('/', response_model=List[Post])
-async def get_posts(db: Session = Depends(get_db),  current_user: int =  Depends(oauth2.get_current_user), limit: int = 10):
-    return db.query(ORM_models.Post_ORM).limit(limit).all()
+async def get_posts(db: Session = Depends(get_db),  current_user: int =  Depends(oauth2.get_current_user), limit: int = 10, skip: int = 0, search: Optional[str]= ''):
+    return db.query(ORM_models.Post_ORM).filter(ORM_models.Post_ORM.title.contains(search)).offset(skip).limit(limit).all()
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
