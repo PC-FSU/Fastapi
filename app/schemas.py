@@ -2,6 +2,36 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
 
+
+
+# schema for auth routers 
+class Token(BaseModel):
+    access_token: str
+    token_type: str 
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
+    
+
+
+# schema for user routers
+class UserOut(BaseModel):
+    email: EmailStr
+    id: int
+    class Config:
+        orm_mode = True
+        
+        
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+    
+    
+
+    
+    
+
+# schema for post routers
 class PostBase(BaseModel):
     title: str
     content: str
@@ -22,25 +52,7 @@ class Post(PostBase):
     id: int
     created_at: datetime
     owner_id: int
+    owner: UserOut
     
     class Config:
         orm_mode = True
-
-class UserOut(BaseModel):
-    email: EmailStr
-    id: int
-    class Config:
-        orm_mode = True
-        
-        
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-    
-    
-class Token(BaseModel):
-    access_token: str
-    token_type: str 
-
-class TokenData(BaseModel):
-    id: Optional[str] = None
