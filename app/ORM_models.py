@@ -21,7 +21,7 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    
+    phone_number = Column(String)
     
 # This is model that create composite key for vote-like system in our app. No user can like a post more than once, and multiple user can like a post.
 class Vote(Base):
