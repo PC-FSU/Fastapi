@@ -1,4 +1,5 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pathlib import Path
 
 class Settings(BaseSettings):
     # Connection parameters
@@ -13,7 +14,11 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     
-    class Config:
-        env_file = '.env'
+    # Configuration
+    model_config = SettingsConfigDict(
+        env_file=str(Path(__file__).parent.parent / ".env"),  # Adjust path one directory up
+        env_file_encoding="utf-8"
+    )
 
 settings = Settings()
+print(settings.model_dump())
