@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from .database import Base
 
 # Define the 'post' table
-class Post_ORM(Base):
+class Post(Base):
     __tablename__ = 'posts'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
