@@ -28,4 +28,12 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY . .
 
+# Copy the entrypoint script and make it executable
+COPY alembic_setup.sh /alembic_setup.sh
+RUN chmod +x /alembic_setup.sh
+
+# Set entrypoint to run Alembic migrations
+ENTRYPOINT ["/alembic_setup.sh"]
+
+# Set CMD to run Uvicorn, only after Alembic migrations are done
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
