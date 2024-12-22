@@ -11,13 +11,10 @@ class Settings(BaseSettings):
     algorithm: str
     access_token_expire_minutes: int
     
-    # # Configuration
-    # model_config = SettingsConfigDict(
-    #     env_file=str(Path(__file__).parent.parent / ".env"),  # Adjust path one directory up
-    #     env_file_encoding="utf-8"
-    # )
+    # Configuration
+    model_config = SettingsConfigDict(
+        env_file=str(Path(__file__).parent.parent / ".env"),  # Adjust path one directory up
+        env_file_encoding="utf-8"
+    )
     
-    class Config:
-        env_file = ".env"
-
 settings = Settings()
