@@ -3,8 +3,8 @@ services:
     build: .
     ports:
       - 8000:8000
-    volumes:
-      - ./:/usr/src/app
+    # volumes:
+    #   - ./:/app:ro # bind mount to sync code to container - with read only -ro permission. ./ current dir on host /app= workdir in container.
     # env_file:
     #     - ./.env
     environment:
