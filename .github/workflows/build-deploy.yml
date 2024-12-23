@@ -27,7 +27,5 @@ jobs:
       - name: install all dependencies
         run: poetry install --no-root
       - name: test with pytest
-        run: |
-          poetry add pytest
-          pytest
+        run: pytest
       
