@@ -36,3 +36,4 @@ def downgrade() -> None:
     op.drop_column('users', 'phone_number')
     op.drop_table('votes')
     # ### end Alembic commands ###
+
