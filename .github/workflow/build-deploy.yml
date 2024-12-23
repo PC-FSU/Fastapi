@@ -1,0 +1,20 @@
+name: CI Pipeline
+
+# Trigger on push or pull request targeting the 'main' branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v4
+      - name: say hi
+        run: echo "yooooo"
