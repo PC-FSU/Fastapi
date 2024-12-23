@@ -29,9 +29,6 @@ class UserLogin(BaseModel):
     
     
 
-    
-    
-
 # schema for post routers
 class PostBase(BaseModel):
     title: str
