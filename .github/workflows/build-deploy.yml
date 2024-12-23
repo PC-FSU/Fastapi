@@ -26,4 +26,8 @@ jobs:
         run: pip install poetry==1.8.2
       - name: install all dependencies
         run: poetry install --no-root
+      - name: test with pytest
+        run: |
+          poetry add pytest
+          pytest
       
