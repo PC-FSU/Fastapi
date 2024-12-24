@@ -58,7 +58,7 @@ jobs:
         run: poetry config virtualenvs.create false
 
       # Install dependencies with Poetry
-      - name: Install dependencies
+      - name: Install dependencies.
         run: poetry install
 
       # Run tests with pytest
