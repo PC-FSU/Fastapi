@@ -27,10 +27,14 @@ jobs:
       - name: Install Poetry
         run: python -m pip install --upgrade pip && pip install poetry
 
+      # Configure Poetry to avoid creating virtual environments
+      - name: Disable Poetry virtual environments
+        run: poetry config virtualenvs.create false
+
       # Install dependencies with Poetry
       - name: Install dependencies
         run: poetry install --with development
 
       # Run tests with pytest
       - name: Run tests
-        run: poetry run pytest
+        run: pytest
