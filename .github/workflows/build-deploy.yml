@@ -1,11 +1,5 @@
 name: CI Pipeline
 
-before_script:
- - python -m pip install --upgrade pip  
- - pip install poetry
- - poetry install --with development
- - source `poetry env info --path`/bin/activate
-
 # Trigger on push or pull request targeting the 'main' branch
 on:
   push:
@@ -15,17 +9,28 @@ on:
     branches:
       - main
 
-
 jobs:
-  job1:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: pulling git repo
-        uses: actions/checkout@v4
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Python environment
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: "3.12"
-      - name: test with pytest
-        run:  poetry run pytest
-      
+
+      # Install Poetry
+      - name: Install Poetry
+        run: python -m pip install --upgrade pip && pip install poetry
+
+      # Install dependencies with Poetry
+      - name: Install dependencies
+        run: poetry install --with development
+
+      # Run tests with pytest
+      - name: Run tests
+        run: poetry run pytest
