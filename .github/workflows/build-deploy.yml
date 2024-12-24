@@ -33,7 +33,7 @@ jobs:
 
       # Install dependencies with Poetry
       - name: Install dependencies
-        run: poetry install --with development
+        run: poetry install
 
       # Run tests with pytest
       - name: Run tests
